@@ -165,7 +165,7 @@ def wrong_add_function2(arg1,arg2):
 arg_str_1=['1','2','3']
 arg_str_2=['1','1', 1]
 
-two_a = print(f"\n2.a\nBefore: arg_2_sum = sum([arg1[arg1_index]+i for index, i in enumerate(arg2)])\nAfter: arg_2_sum = sum([arg1[arg1_index]+i if index == arg1_index else 0 for index, i in enumerate(arg2)])") #defining variable two_a as a print statement showing what the arg_2_sum variable was set to before and after changing it according to the problem instructions.
+two_a = print(f"\n2.a\nBefore: arg_2_sum = sum([arg1[arg1_index]+i for index, i in enumerate(arg2)])\nAfter: arg_2_sum = sum([arg1[arg1_index]+i if index == arg1_index else 0 for index, i in enumerate(arg2)]) \n") #defining variable two_a as a print statement showing what the arg_2_sum variable was set to before and after changing it according to the problem instructions.
 
 '''
 2.b
@@ -243,5 +243,71 @@ def exception_add_function(arg1, arg2): #define exception_add_function as a func
 arg_str_1=['1','2','3']
 arg_str_2=['1','1', 1]
 
-two_b = print(f"\n2.b \n{exception_add_function(arg_str_1, arg_str_2)}") #two_b variable set to print the problem number and execute exception_add_function
+two_b = print(f"2.b \n{exception_add_function(arg_str_1, arg_str_2)}") #two_b variable set to print the problem number and execute exception_add_function
 
+'''
+2.c
+Without modifying the string section code itself or the input directly, 
+write a try, except block that catches the issue with the input below and 
+gets it to process via the string section. IE, do not, outside the function,
+change the values of arg_str_1 or arg_str_2. Name this function 
+correction_add_function(), i.e you will not be updating the wrong_add_function,
+you will simply handle the error of wrong inputs in a seperate function, you want
+the wrong_add_function to output its current result you are only bolstering the 
+function for edge cases .
+'''
+def correct_add_function(arg1,arg2): #define correct_add_function and specify arguments arg1 and arg2
+	t_list = arg1 + arg2 #define t_list as a list containing elements from arg1 and arg2
+	try:
+		sum(i for i in t_list) #try condition for elements that are integers. If elements exist that are not integers, then a TypeError will occur.
+	except TypeError: #TypeError exception
+		try:
+			"".join(t_list) #try condition for elements that are strings. If elements exist that are not strings, then a TypeError will occur.
+		except TypeError: #TypeError exception
+			a = sum(type(i)==int for i in arg1) + sum(type(i)==int for i in arg2) #define variable a as the number of of integer elements
+			b = sum(type(i)==str for i in arg1) + sum(type(i)==str for i in arg2) #define variable b as the number of string elements
+			if a >= b: #initiate if statement when there are more integer than string elements
+				j = 0 #ticker for iterations in the below for loop. This variable keeps track of the index of the element tested.
+				for i in arg1: #initiates a for loop for elements in arg1
+					arg1[j] = int(i) #change element at index j into an integer (even if it is already an int)
+					j += 1 #uptick j at the end of the sequence
+				j = 0 #ticker variable for iterations in the below for loop.
+				for i in arg2: #initiates a for loop for elements in arg2
+					arg2[j] = int(i) #change element at index j into an integer (even if it is already an int)
+					j += 1 #uptick j at the end of the sequence
+			if a < b: #initiate if statement when there are more integer than string elements
+				j = 0 #ticker for iterations in the below for loop.
+				for i in arg1: #initiate for loop for elements in arg1
+					arg1[j] = str(i) #change element at index j into an string (even if it is already a str)
+					j += 1 #uptick j at the end of the sequence
+				j = 0 #ticker variabel for iterations in the below loop
+				for i in arg2: #initiate for loop for elements in arg2
+					arg2[j] = str(i) #change element at index j into a string (even if it is already a str)
+					j += 1 #uptick ja t the end of the sequence
+	#numeric section
+	if sum([type(i)==int for i in arg1])==len(arg1) and \
+		sum([type(i)==int for i in arg2])==len(arg2):
+			arg1_index=0
+			while arg1_index < len(arg1):
+				arg_2_sum = 0
+				for arg2_elements in arg2:
+					arg_2_sum = sum([arg1[arg1_index]+i if index == arg1_index else 0 for index, i in enumerate(arg2)])
+				arg1[arg1_index]=arg_2_sum  
+				arg1_index+=1
+			return arg1
+	#string section
+	elif sum([type(i)==str for i in arg1])==len(arg1) and \
+		sum([type(i)==str for i in arg2])==len(arg2):
+			arg1_index=0
+			while arg1_index < len(arg1):
+				arg_2_sum = ''
+				for arg2_elements in arg2:
+					arg_2_sum += arg2_elements
+				arg1[arg1_index]=arg1[arg1_index]+str(arg_2_sum)
+				arg1_index+=1
+			return arg1
+
+arg_str_1=['1','2','3']
+arg_str_2=['1','1', 1]
+
+two_c = print(f"\n2.c \n{correct_add_function(arg_str_1,arg_str_2)}") #two_c variable set to print the problem number and the output of the correct_add_function
